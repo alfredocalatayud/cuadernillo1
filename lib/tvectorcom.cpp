@@ -14,6 +14,8 @@ TVectorCom::TVectorCom(int p_tam) {
         tamano = p_tam;
         c = new TComplejo[p_tam];
     }
+
+    // error = TComplejo();
 }
 
 TVectorCom::TVectorCom(const TVectorCom &p_vector) {
@@ -48,6 +50,8 @@ TVectorCom::operator=(const TVectorCom &p_vector) {
 
     for (int i = 0; i < tamano; i++) 
         c[i] = p_vector[i+1];
+
+    return *this;
 }
 
 //  Métodos

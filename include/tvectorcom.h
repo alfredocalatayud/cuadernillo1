@@ -1,6 +1,7 @@
 #ifndef __TVECTORCOM__
 #define __TVECTORCOM__
 
+#include <iostream>
 #include "tcomplejo.h"
 
 class TVectorCom {

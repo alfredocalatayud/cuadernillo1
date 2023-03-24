@@ -54,7 +54,6 @@ TListaPos&
 TListaPos::operator=(const TListaPos &p_lpos) {
     if(this != &p_lpos) {
         (*this).~TListaPos();
-
         pos = p_lpos.pos;
     }
 
@@ -101,7 +100,8 @@ TListaPos
 TListaPos::Siguiente() const {
     TListaPos *aux = new TListaPos();
 
-    if(pos != NULL && pos->siguiente != NULL)
+    
+    if(pos != NULL)
         aux->pos = pos->anterior;
 
     return *aux;
@@ -141,9 +141,8 @@ TListaCom::~TListaCom() {
 
 TListaCom&
 TListaCom::operator=(const TListaCom &p_lcom) {
-    if(!p_lcom.EsVacia()) { // TODO: this!=&p_lcom
+    if(!p_lcom.EsVacia() || this !=&p_lcom) { // TODO: this!=&p_lcom
         (*this).~TListaCom();
-
         Copia(p_lcom);
     }
 
@@ -209,20 +208,20 @@ TListaCom::EsVacia() const {
 
 bool
 TListaCom::InsCabeza(const TComplejo &p_com) {
-    TListaNodo *aux = primero;
-    TListaNodo *nodo = new TListaNodo();
+    TListaNodo *nodo_cabeza = new TListaNodo();
 
-    if (nodo == NULL) 
+    if (nodo_cabeza == NULL) 
         return false;
     
+    
+    nodo_cabeza->e = p_com;
+    nodo_cabeza->siguiente = primero;
 
-    nodo->e = p_com;
-    nodo->siguiente = primero;
     if(primero != NULL) {
-        primero->anterior = nodo;
+        primero->anterior = nodo_cabeza;
     }
 
-    primero = nodo;
+    primero = nodo_cabeza;
 
     return true;
 }
@@ -250,29 +249,48 @@ TListaCom::InsertaI(const TComplejo &p_com, const TListaPos &pos) {
 }
 
 bool
-TListaCom::InsertaD(const TComplejo &p_com, const TListaPos &pos) {
-    if (pos.EsVacia()) 
+TListaCom::InsertaD(const TComplejo &p_com, const TListaPos &p_pos) {
+    if (p_pos.EsVacia()) 
         return false;
     
-    // Crear un nuevo nodo
-    TListaNodo *nodo = new TListaNodo();
+    // TListaNodo *nodo = new TListaNodo();
     
-    // Verificar si se pudo reservar memoria para el nuevo nodo
-    if(nodo == nullptr)
+    // if(nodo == nullptr)
+    //     return false;
+    
+    
+    // TListaNodo *nodo_pos = pos.pos;
+
+    // nodo->e = p_com;
+    // nodo->anterior = nodo_pos;
+    // nodo->siguiente = nodo_pos->siguiente;
+
+    // if(nodo_pos->siguiente != NULL)
+    //     nodo_pos->siguiente->anterior = nodo;
+    
+    // nodo_pos->siguiente = nodo;
+
+    TListaNodo *actual = primero;
+    TListaNodo *anterior = NULL;
+
+    while(actual != NULL && actual != p_pos.pos) {
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+
+    if (actual == NULL) 
         return false;
-    
-    
-    // Enlazar el nuevo nodo con los nodos adyacentes a la posición indicada
-    TListaNodo *nodo_pos = pos.pos;
 
-    nodo->e = p_com;
-    nodo->anterior = nodo_pos;
-    nodo->siguiente = nodo_pos->siguiente;
+    TListaNodo *nodonuevo = new TListaNodo();
+    if(nodonuevo == NULL) 
+        return false;
 
-    if(nodo_pos->siguiente != NULL)
-        nodo_pos->siguiente->anterior = nodo;
-    
-    nodo_pos->siguiente = nodo;
+    nodonuevo->e = p_com;
+    nodonuevo->siguiente = actual->siguiente;
+    actual->siguiente = nodonuevo;
+
+    if (ultimo == actual) 
+        ultimo = nodonuevo;
     
     return true;
 }
@@ -437,8 +455,9 @@ operator<<(ostream &s, const TListaCom &obj) {
     while ((!aux.EsVacia())) {
         TComplejo complejo = obj.Obtener(aux);
         s << complejo;
+        cout << "aux" << endl;
         aux = aux.Siguiente();
-
+        
         if(!aux.EsVacia())
             s << " ";
     }
@@ -455,6 +474,7 @@ TListaCom::Copia(const TListaCom &p_lcom) {
     while(!pos.EsVacia()) {
         TComplejo complejo = p_lcom.Obtener(pos);
 
+        cout << complejo << endl;
         if(ultimo == NULL) 
             InsCabeza(complejo);
         else

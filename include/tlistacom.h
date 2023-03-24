@@ -74,7 +74,7 @@ class TListaCom {
 		// Destructor
 		~TListaCom();
 		// Sobrecarga del operador asignación
-		TListaCom & operator=(const TListaCom &);
+		TListaCom& operator=(const TListaCom &);
 		
 		// METODOS
 		// Sobrecarga del operador igualdad
