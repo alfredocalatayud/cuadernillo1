@@ -3,7 +3,7 @@
 //  TLISTANODO
 
 TListaNodo::TListaNodo() {
-    e = NULL;
+    e = TComplejo();
     siguiente = NULL;
     anterior = NULL;
 }
@@ -65,7 +65,7 @@ bool
 TListaPos::operator==(const TListaPos &p_lpos) const{
     bool temp;
 
-    temp = !EsVacia && !p_lpos.EsVacia();
+    temp = !EsVacia() && !p_lpos.EsVacia();
 
     while (temp) {
         if (EsVacia() || p_lpos.EsVacia()) 
@@ -198,6 +198,8 @@ TListaCom::operator-(const TListaCom &p_lcom) {
         resta.Borrar(p_lcom.Obtener(pos));
         pos = pos.Siguiente();
     }
+
+    return resta;
 }
 
 bool

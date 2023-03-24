@@ -112,7 +112,7 @@ class TListaCom {
 	
 	// FUNCIONES AMIGAS
 	// Sobrecarga del operador salida
-	friend ostream& operator<<(ostream &, TListaCom &); 
+	friend ostream& operator<<(ostream &, const TListaCom &); 
     friend class TListaNodo;
     friend class TListaPos;
 };

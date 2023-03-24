@@ -13,6 +13,7 @@ main(void)
   TVectorCom b(4);
   TVectorCom c(6);
 
+  cout << "Holaaaaa" << endl;
   cout << "a: " << a << endl;
   cout << "b: " << b << endl;
   cout << "c: " << c << endl;
