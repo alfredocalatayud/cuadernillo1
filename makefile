@@ -1,12 +1,19 @@
-OBJ=main.o tcomplejo.o
-COMP=g++
-OPC=-g
+.PHONY= doc clean
 
-main: $(OBJ)
-	$(COMP) $(OPC) $(OBJ) -o main
+CC=g++
+OPTIONS= -g 
+DEBUG= #-D DEBUG
+LIBDIR=lib
+INCLUDEDIR=include
+_OBJ= tcomplejo.o tvectorcom.o tlistacom.o 
+OBJ = $(patsubst %,$(LIBDIR)/%,$(_OBJ))
 
-main.o: main.cpp tcomplejo.h
-	$(COMP) $(OPC) -c main.cpp
+tad:    src/tad.cpp $(OBJ)
+	$(CC) $(OPTIONS) $(DEBUG) -I$(INCLUDEDIR) src/tad.cpp $(OBJ) -o tad
 
-tcomplejo.o: tcomplejo.h tcomplejo.cpp
-	$(COMP) $(OPC) -c tcomplejo.cpp
+$(LIBDIR)/%.o : $(LIBDIR)/%.cpp $(INCLUDEDIR)/%.h
+	$(CC) $(OPTIONS) $(DEBUG) -c -I$(INCLUDEDIR) -o $@ $<
+
+
+clean:
+	rm -f $(OBJ) 
