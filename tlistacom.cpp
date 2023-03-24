@@ -333,26 +333,117 @@ TListaCom::BorrarTodos(const TComplejo &p_com) {
 }
 
 bool
-TListaCom::Borrar(const TListaPos &pos) {
-    if(EsVacia() || pos.EsVacia())
+TListaCom::Borrar(const TListaPos &p_pos) {
+    if(EsVacia() || p_pos.EsVacia())
         return false;
     
-    if (pos == Primera()) {
-        TListaNodo *temp = pos.pos->siguiente;
-        pos.pos->siguiente = temp->siguiente;
-        delete temp;
+    if (p_pos == Primera()) { 
+        TListaNodo *sig = p_pos.pos->siguiente;
+        delete p_pos.pos;
+        primero = sig;
+
+        if (primero == NULL)  
+            ultimo = NULL; 
+        else
+            primero->anterior = NULL;
+    }
+    else if (p_pos == Ultima()) {
+        TListaNodo *ant = p_pos.pos->anterior;
+        delete p_pos.pos;
+        ultimo = ant;
+        ultimo->siguiente = NULL;
     }
     else {
-        TListaNodo *anterior = Primera().pos;
-        while (anterior->siguiente != p.pos)
-            anterior = anterior->siguiente;
-        
-        TListaNodo *temp = p.pos;
-        anterior->siguiente  = temp->siguiente;
-        delete temp;
+        TListaNodo *sig = p_pos.pos->anterior;
+        TListaNodo *ant = p_pos.pos->siguiente;
+        delete p_pos.pos;
+
+        ant->siguiente = sig;
+        sig->anterior = ant;
     }
 
-    return true;
+    p_pos.~TListaPos();
+    // p_pos.pos = NULL;
+    return true;    
+}
+
+TComplejo
+TListaCom::Obtener(const TListaPos &p_pos) const {
+    if(p_pos.EsVacia())
+        return TComplejo();
+    
+    return p_pos.pos->e;
+}
+
+bool
+TListaCom::Buscar(const TComplejo &p_com) {
+    TListaPos pos = Primera();
+
+    while(!pos.EsVacia()) {
+        TComplejo c = Obtener(pos);
+
+        if(c == p_com) 
+            return true;
+
+        pos = pos.Siguiente();        
+    }
+
+    return false;
+} 
+
+int
+TListaCom::Longitud() {
+    int longitud = 0;
+
+    TListaPos pos = Primera();
+
+    while(!pos.EsVacia()) {
+        longitud++;
+        pos = pos.Siguiente();
+    }
+
+    return longitud;
+}
+
+TListaPos 
+TListaCom::Primera() const {
+    if(EsVacia()) 
+        return TListaPos();
+
+    TListaPos pri;
+    pri.pos = primero;
+
+    return pri;
+}
+
+TListaPos 
+TListaCom::Ultima() const {
+    if(EsVacia()) 
+        return TListaPos();
+
+    TListaPos ult;
+    ult.pos = ultimo;
+
+    return ult;
+}
+
+ostream&
+operator<<(ostream &s, const TListaCom &obj) {
+    s << "{";
+    TListaPos aux = obj.Primera();
+
+    while ((!aux.EsVacia())) {
+        TComplejo complejo = obj.Obtener(aux);
+        s << complejo;
+        aux = aux.Siguiente();
+
+        if(!aux.EsVacia())
+            s << " ";
+    }
+    
+    s << "}";
+
+    return s;
 }
 
 void
