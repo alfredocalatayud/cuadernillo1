@@ -96,11 +96,11 @@ class TListaCom {
 		// Buscar y borrar la primera ocurrencia del elemento
 		bool Borrar(const TComplejo &);
 		// Buscar y borrar todas las occurrencias del elemento
-		bool BorrarTodos(TComplejo &);
+		bool BorrarTodos(const TComplejo &);
 		// Borra el elemento que ocupa la posición indicada
 		bool Borrar(const TListaPos &);
 		// Obtiene el elemento que ocupa la posición indicada 
-		TComplejo Obtener(const TListaPos &);
+		TComplejo Obtener(const TListaPos &) const;
 		// Devuelve TRUE si el elemento está en la lista, FALSE en caso contrario
 		bool Buscar(const TComplejo &);
 		// Devuelve la longitud de la lista
