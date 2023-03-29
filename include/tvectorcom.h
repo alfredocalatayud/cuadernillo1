@@ -1,5 +1,5 @@
-#ifndef __TVECTORCOM__
-#define __TVECTORCOM__
+#ifndef TVECTORCOM_H_
+#define TVECTORCOM_H_
 
 #include <iostream>
 #include "tcomplejo.h"
@@ -9,10 +9,9 @@ class TVectorCom {
 		TComplejo *c;
 		int tamano;
         TComplejo error;
+		// void Limpiar();
 		
 	public:
-        // void vaciaVector();
-
 		// Constructor por defecto
 		TVectorCom();		
 		// Constructor a partir de un tamaño
@@ -34,7 +33,7 @@ class TVectorCom {
 		// Sobrecarga del operador corchete (parte DERECHA)
 		TComplejo operator[](int) const;
 		// Tamaño del vector (posiciones TOTALES)
-		int Tamano();
+		int Tamano() const;
 		// Cantidad de posiciones OCUPADAS TComplejo NO VACIO) en el vector 
 		int Ocupadas();
 		// Devuelve TRUE si existe el TComplejo en el vector

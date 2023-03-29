@@ -1,5 +1,5 @@
-#ifndef __TLISTACOM__
-#define __TLISTACOM__
+#ifndef TLISTACOM_H_
+#define TLISTACOM_H_
 
 #include "tcomplejo.h"
 

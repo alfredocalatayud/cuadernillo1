@@ -1,30 +1,40 @@
 #include "tvectorcom.h"
 
-TVectorCom::TVectorCom() {
+TVectorCom::TVectorCom():error() {
     c = NULL;
     tamano = 0;
 }
 
-TVectorCom::TVectorCom(int p_tam) {
+TVectorCom::TVectorCom(int p_tam):error() {
     if(p_tam <= 0) {
         c = NULL;
         tamano = 0;
     }
     else {
         tamano = p_tam;
-        c = new TComplejo[p_tam];
+        c = new TComplejo[p_tam+1];
     }
 
     // error = TComplejo();
 }
 
-TVectorCom::TVectorCom(const TVectorCom &p_vector) {
-    this->~TVectorCom();
-    tamano = p_vector.tamano;
+TVectorCom::TVectorCom(const TVectorCom &p_vector):error() {
+    // this->~TVectorCom();
+    
+    // c = NULL;
+    // tamano = p_vector.Tamano();
+    
+    // for (int i = 1; i <= tamano; i++) {
+    //     c[i-1] = p_vector[i];
+    // }
 
-    for (int i = 0; i < tamano; i++)
-        c[i] = p_vector[i+1];
+    tamano = p_vector.tamano;
+    c = new TComplejo[tamano];
+
+    for (int i = 1; i <= tamano; i++) 
+        c[i-1] = p_vector[i];
 }
+
 
 // void
 // TVectorCom::vaciaVector() {
@@ -35,11 +45,13 @@ TVectorCom::TVectorCom(const TVectorCom &p_vector) {
 // }
 
 TVectorCom::~TVectorCom() {
-    if(c != NULL)
-        delete [] c;
+    if(c != NULL) 
+        delete [] c;   
     
+    c = NULL;
     tamano = 0;
 }
+
 
 TVectorCom&
 TVectorCom::operator=(const TVectorCom &p_vector) {
@@ -89,7 +101,7 @@ TVectorCom::operator[](int n) const {
 }
 
 int
-TVectorCom::Tamano() {
+TVectorCom::Tamano() const {
     return tamano;
 }
 

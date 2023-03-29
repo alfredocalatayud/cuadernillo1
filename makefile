@@ -2,7 +2,7 @@
 
 CC=g++
 OPTIONS= -g 
-DEBUG= #-D DEBUG
+DEBUG= -D DEBUG
 LIBDIR=lib
 INCLUDEDIR=include
 _OBJ= tcomplejo.o tvectorcom.o tlistacom.o 
