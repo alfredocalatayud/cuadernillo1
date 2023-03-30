@@ -1,5 +1,5 @@
 /* Prueba:
-     CONST. COPIA
+     InsCabeza, InsertarI, InsertarD
 */
 #include <iostream>
 
@@ -10,18 +10,17 @@ using namespace std;
 int
 main(void)
 {
-  TComplejo a(1);
-  
+  TComplejo a, b(1), c(2, 3);
   TListaCom l1;
+  
+  cout<<"l1 = "<<l1<<endl;
   l1.InsCabeza(a);
-
-  TListaCom l2(l1),l3(l2);
+  cout<<"l1 = "<<l1<<endl;
+  l1.InsertarI(b, l1.Ultima());
+  cout<<"l1 = "<<l1<<endl;
+  l1.InsertarD(c, l1.Primera());
 
   cout<<"l1 = "<<l1<<endl;
-  cout<<"l2 = "<<l2<<endl;
-  cout<<"l3 = "<<l3<<endl;
-
+   
   return 0;
 }
-
-

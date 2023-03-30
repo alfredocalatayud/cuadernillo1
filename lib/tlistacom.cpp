@@ -8,10 +8,10 @@ TListaNodo::TListaNodo() {
     anterior = NULL;
 }
 
-TListaNodo::TListaNodo(const TListaNodo &p_nodo):e(p_nodo.e) {
-    // e = p_nodo.e;
-    // siguiente = p_nodo.siguiente;
-    anterior = p_nodo.anterior;
+TListaNodo::TListaNodo(const TListaNodo &p_nodo) {
+        e = p_nodo.e;
+        siguiente = p_nodo.siguiente;
+        anterior = p_nodo.anterior;
 }
 
 TListaNodo::~TListaNodo() {
@@ -98,13 +98,14 @@ TListaPos::Anterior() const {
 
 TListaPos
 TListaPos::Siguiente() const {
-    TListaPos *aux = new TListaPos();
+    //TListaPos *aux = new TListaPos();
+    TListaPos siguiente;
 
-    
     if(pos != NULL)
-        aux->pos = pos->anterior;
+        //aux->pos = pos->siguiente;
+        siguiente.pos = pos->siguiente;
 
-    return *aux;
+    return siguiente;
 }
 
 bool
@@ -119,8 +120,7 @@ TListaCom::TListaCom() {
 }
 
 TListaCom::TListaCom(const TListaCom &p_lcom) {
-    primero = NULL;
-    ultimo = NULL;
+    Limpiar();
 
     Copia(p_lcom);
 }
@@ -140,18 +140,36 @@ TListaCom::Limpiar() {
 
 void
 TListaCom::Copia(const TListaCom &p_lcom) {
-    TListaPos pos = p_lcom.Primera();
+    // TListaPos pos = p_lcom.Primera();
 
-    while(!pos.EsVacia()) {
-        TComplejo complejo = p_lcom.Obtener(pos);
+    // while(!pos.EsVacia()) {
+    //     TComplejo complejo = p_lcom.Obtener(pos);
 
-        // cout << complejo << endl;
-        if(ultimo == NULL) 
-            InsCabeza(complejo);
-        else
-            InsertaD(complejo, Ultima());
+    //     // cout << complejo << endl;
+    //     if(ultimo == NULL) 
+    //         InsCabeza(complejo);
+    //     else
+    //         InsertaD(complejo, Ultima());
 
-        pos = pos.Siguiente();
+    //     pos = pos.Siguiente();
+    // }
+
+    if (!p_lcom.EsVacia()) {
+        TListaNodo* nodoactual = p_lcom.primero;
+        while (nodoactual != NULL) {
+            TListaNodo* nodonuevo = new TListaNodo(*nodoactual);
+
+            if (EsVacia()) 
+                primero = nodonuevo;
+            else {
+                ultimo->siguiente = nodonuevo;
+                nodonuevo->anterior = ultimo;
+            }
+
+            ultimo = nodonuevo;
+
+            nodoactual = nodoactual->siguiente;
+        }
     }
 }
 
@@ -245,20 +263,29 @@ TListaCom::InsCabeza(const TComplejo &p_com) {
     
     
     nodo_cabeza->e = p_com;
-    nodo_cabeza->siguiente = primero;
 
-    if(primero != NULL) {
+    // nodo_cabeza->siguiente = primero;
+
+    // if(primero != NULL) {
+    //     primero->anterior = nodo_cabeza;
+    // }
+
+    // primero = nodo_cabeza;
+
+    if(EsVacia() ) 
+        primero = ultimo = nodo_cabeza;
+    else {
+        nodo_cabeza->siguiente = primero;
         primero->anterior = nodo_cabeza;
+        primero = nodo_cabeza;
     }
-
-    primero = nodo_cabeza;
 
     return true;
 }
 
 bool
-TListaCom::InsertaI(const TComplejo &p_com, const TListaPos &pos) {
-    if (pos.EsVacia()) 
+TListaCom::InsertarI(const TComplejo &p_com, const TListaPos &p) {
+    if (p.EsVacia()) 
         return false;
     
 
@@ -266,64 +293,43 @@ TListaCom::InsertaI(const TComplejo &p_com, const TListaPos &pos) {
     if (nodo == NULL) 
         return false;
     
-    TListaNodo *nodo_pos = pos.pos;
+    //TListaNodo *nodo_pos = pos.pos;
 
     nodo->e = p_com;
-    nodo->siguiente = nodo_pos;
-    nodo->anterior = nodo_pos->anterior;
+    nodo->siguiente = p.pos;
 
-    if(nodo_pos->anterior != NULL)
-        nodo_pos->anterior = nodo;
+    if(nodo->anterior != NULL)
+        nodo->anterior->siguiente = nodo;
+    else 
+        primero = nodo;
+
+    p.pos->anterior = nodo;
 
     return true;
 }
 
 bool
-TListaCom::InsertaD(const TComplejo &p_com, const TListaPos &p_pos) {
+TListaCom::InsertarD(const TComplejo &p_com, const TListaPos &p_pos) {
     if (p_pos.EsVacia()) 
         return false;
     
-    // TListaNodo *nodo = new TListaNodo();
-    
-    // if(nodo == nullptr)
-    //     return false;
-    
-    
-    // TListaNodo *nodo_pos = pos.pos;
-
-    // nodo->e = p_com;
-    // nodo->anterior = nodo_pos;
-    // nodo->siguiente = nodo_pos->siguiente;
-
-    // if(nodo_pos->siguiente != NULL)
-    //     nodo_pos->siguiente->anterior = nodo;
-    
-    // nodo_pos->siguiente = nodo;
-
-    TListaNodo *actual = primero;
-    TListaNodo *anterior = NULL;
-
-    while(actual != NULL && actual != p_pos.pos) {
-        anterior = actual;
-        actual = actual->siguiente;
-    }
-
-    if (actual == NULL) 
+    TListaNodo *nodo = new TListaNodo();
+    if(nodo == NULL)
         return false;
 
-    TListaNodo *nodonuevo = new TListaNodo();
-    if(nodonuevo == NULL) 
-        return false;
+    nodo->e = p_com;
+    nodo->siguiente = p_pos.pos->siguiente;
+    nodo->anterior = p_pos.pos;
 
-    nodonuevo->e = p_com;
-    nodonuevo->siguiente = actual->siguiente;
-    actual->siguiente = nodonuevo;
-
-    if (ultimo == actual) 
-        ultimo = nodonuevo;
+    if(p_pos.pos->siguiente != NULL)
+        p_pos.pos->siguiente->anterior = nodo;
+    else   
+        ultimo = nodo;
+    
+    p_pos.pos->siguiente = nodo;
     
     return true;
-}
+}   
 
 bool 
 TListaCom::Borrar(const TComplejo &p_com) {    
@@ -468,13 +474,14 @@ TListaCom::Primera() const {
 
 TListaPos 
 TListaCom::Ultima() const {
-    if(EsVacia()) 
+    if(ultimo==NULL) 
         return TListaPos();
+    else {
+        TListaPos ult;
+        ult.pos = ultimo;
 
-    TListaPos ult;
-    ult.pos = ultimo;
-
-    return ult;
+        return ult;
+    }
 }
 
 ostream&
@@ -485,7 +492,6 @@ operator<<(ostream &s, const TListaCom &obj) {
     while ((!aux.EsVacia())) {
         TComplejo complejo = obj.Obtener(aux);
         s << complejo;
-        cout << "aux" << endl;
         aux = aux.Siguiente();
         
         if(!aux.EsVacia())

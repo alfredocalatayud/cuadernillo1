@@ -90,9 +90,9 @@ class TListaCom {
 		// Inserta el elemento en la cabeza de la lista
 		bool InsCabeza(const TComplejo &);
 		// Inserta el elemento en a la izquierda de la posición indicada
-		bool InsertaI(const TComplejo &, const TListaPos &);
+		bool InsertarI(const TComplejo &, const TListaPos &);
 		// Inserta el elemento en a la derecha de la posición indicada
-		bool InsertaD(const TComplejo &, const TListaPos &);
+		bool InsertarD(const TComplejo &, const TListaPos &);
 		// Buscar y borrar la primera ocurrencia del elemento
 		bool Borrar(const TComplejo &);
 		// Buscar y borrar todas las occurrencias del elemento
