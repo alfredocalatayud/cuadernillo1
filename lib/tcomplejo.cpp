@@ -26,8 +26,7 @@ TComplejo::~TComplejo() {
 
 TComplejo&
 TComplejo::operator=(const TComplejo &op2) {
-    if(this != &op2) {
-        (*this).~TComplejo();
+    if(&op2 != NULL) {
 
         re = op2.re;
         im = op2.im;

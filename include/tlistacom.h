@@ -66,7 +66,7 @@ class TListaCom {
         void Limpiar();
         void Copia(const TListaCom &);
 	
-	public:
+	public:	
 		// Constructor por defecto
 		TListaCom();
 		// Constructor de copia
@@ -84,7 +84,7 @@ class TListaCom {
 		// Sobrecarga del operador suma
 		TListaCom operator+(const TListaCom &);
 		// Sobrecarga del operador resta
-		TListaCom operator-(const TListaCom &);
+		TListaCom operator-(const TListaCom &) const;
 		// Devuelve TRUE si la lista está vacía, false en caso contrario
 		bool EsVacia() const;
 		// Inserta el elemento en la cabeza de la lista
@@ -102,7 +102,7 @@ class TListaCom {
 		// Obtiene el elemento que ocupa la posición indicada 
 		TComplejo Obtener(const TListaPos &) const;
 		// Devuelve TRUE si el elemento está en la lista, FALSE en caso contrario
-		bool Buscar(const TComplejo &);
+		bool Buscar(const TComplejo &) const;
 		// Devuelve la longitud de la lista
 		int Longitud();
 		// Devuelve la primera posición en la lista
