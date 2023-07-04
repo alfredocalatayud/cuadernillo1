@@ -89,10 +89,10 @@ TComplejo::operator-(double p_re) {
 
 TComplejo
 TComplejo::operator*(double p_re) {
-    TComplejo temp(p_re);
+    TComplejo temp;
 
-    temp.re = re * temp.re;
-    temp.im = im;
+    temp.re = re * p_re;
+    temp.im = im * p_re;
 
     return temp;
 }
@@ -167,7 +167,8 @@ TComplejo
 operator-(double v_re, const TComplejo &op2) {
     TComplejo temp(op2);
 
-    temp.re = temp.re - v_re;
+    temp.re = v_re - temp.re;
+    temp.im = -op2.im;
 
     return temp;
 }
@@ -177,6 +178,7 @@ operator*(double v_re, const TComplejo &op2) {
     TComplejo temp(op2);
 
     temp.re = temp.re * v_re;
+    temp.im = temp.im * v_re;
 
     return temp;
 }

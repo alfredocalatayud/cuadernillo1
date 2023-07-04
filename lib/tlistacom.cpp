@@ -293,19 +293,44 @@ TListaCom::InsertarI(const TComplejo &p_com, const TListaPos &p) {
     if (nodo == NULL) 
         return false;
     
-    //TListaNodo *nodo_pos = pos.pos;
+    TListaNodo *aux = new TListaNodo();
 
-    nodo->e = p_com;
-    nodo->siguiente = p.pos;
 
-    if(nodo->anterior != NULL)
-        nodo->anterior->siguiente = nodo;
-    else 
-        primero = nodo;
+    // nodo->e = p_com;
+    // nodo->siguiente = p.pos;
 
-    p.pos->anterior = nodo;
+    // if(nodo->anterior != NULL)
+    //     nodo->anterior->siguiente = nodo;
+    // else 
+    //     primero = nodo;
 
-    return true;
+    // p.pos->anterior = nodo;
+
+    // return true;
+
+    nodo->e.operator=(p_com);
+    nodo = Primera().pos;
+
+    while(nodo != NULL) {
+        if(nodo == p.pos) {
+            if(nodo->anterior != NULL) 
+                aux->anterior = nodo->anterior;
+            
+            aux->siguiente = nodo;
+
+            if(nodo->anterior!=NULL)
+                nodo->anterior->siguiente=aux;
+
+            nodo->anterior = aux;
+
+            if(primero == nodo)
+                primero = aux;
+
+            return true;
+        }
+        nodo = nodo->siguiente;
+    }
+    return false;
 }
 
 bool
