@@ -14,6 +14,5 @@ tad:    src/tad.cpp $(OBJ)
 $(LIBDIR)/%.o : $(LIBDIR)/%.cpp $(INCLUDEDIR)/%.h
 	$(CC) $(OPTIONS) $(DEBUG) -c -I$(INCLUDEDIR) -o $@ $<
 
-
 clean:
 	rm -f $(OBJ) 
