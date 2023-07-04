@@ -176,13 +176,20 @@ TVectorCom::Redimensionar(int v_tam) {
 
     TComplejo* aux = new TComplejo[v_tam]();
 
-    v_tam > tamano ? tam = tamano : tam = v_tam;
 
-    for (int i = 0; i < tam; i++)
-        aux[i] = c[i];
+    v_tam > tamano ? tam = v_tam : tam = tamano;
 
-    this->~TVectorCom();
-    tamano = tam;
+    // if (v_tam > tamano)
+    //     tam  = tamano;
+    // else 
+    //     tam = v_tam;
+
+    for (int i = 0; i < v_tam; i++)
+        if (c!=NULL && i<tamano && tamano>0)
+            aux[i] = c[i];
+
+    // this->~TVectorCom();
+    tamano = v_tam;
     c = aux;
 
     return true; 
