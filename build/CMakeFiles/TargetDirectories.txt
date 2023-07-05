@@ -1,3 +1,0 @@
-/home/alfredo/Desktop/PED/Pruebas/PRACTICA/build/CMakeFiles/PRACTICA.dir
-/home/alfredo/Desktop/PED/Pruebas/PRACTICA/build/CMakeFiles/edit_cache.dir
-/home/alfredo/Desktop/PED/Pruebas/PRACTICA/build/CMakeFiles/rebuild_cache.dir

@@ -3,6 +3,8 @@
 using namespace std;
 
 #include "tvectorcom.h"
+#include "tlistacom.h"
+#include "tcomplejo.h"
 
 int
 main(void)
